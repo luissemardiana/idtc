@@ -1,0 +1,61 @@
+
+                    <div class="crud-editor-column">
+                    <form id="crud-form" class="rounded-[26px] border border-[#E8E1D5] bg-white p-5 sm:p-7 shadow-sm h-fit">
+                        <h3 class="text-xl font-black uppercase tracking-tight mb-5">Tambah Testimonials</h3>
+                        <input type="hidden" name="id" value="">
+                        <div class="space-y-4">
+                            <div><label class="block text-[10px] font-black uppercase tracking-[0.2em] text-[#6A5B3A] mb-1">Nama Alumni/Instansi</label><input name="customer_name" type="text" value="" class="w-full rounded-xl border border-[#E3DCCB] px-3 py-2.5"></div><div><label class="block text-[10px] font-black uppercase tracking-[0.2em] text-[#6A5B3A] mb-1">Peran/Instansi</label><input name="role" type="text" value="" class="w-full rounded-xl border border-[#E3DCCB] px-3 py-2.5"></div><div><label class="block text-[10px] font-black uppercase tracking-[0.2em] text-[#6A5B3A] mb-1">Testimoni</label><textarea name="testimonial" rows="3" class="w-full rounded-xl border border-[#E3DCCB] px-3 py-2.5"></textarea></div><div><label class="block text-[10px] font-black uppercase tracking-[0.2em] text-[#6A5B3A] mb-1">URL foto (opsional)</label><input name="photo_url" type="text" value="" class="w-full rounded-xl border border-[#E3DCCB] px-3 py-2.5"></div><div><label class="block text-[10px] font-black uppercase tracking-[0.2em] text-[#6A5B3A] mb-1">Urutan</label><input name="display_order" type="number" value="" class="w-full rounded-xl border border-[#E3DCCB] px-3 py-2.5"></div><div><label class="block text-[10px] font-black uppercase tracking-[0.2em] text-[#6A5B3A] mb-1">Status</label><select name="status" class="w-full rounded-xl border border-[#E3DCCB] px-3 py-2.5"><option value="active" >Active</option><option value="draft" >Draft</option></select></div>
+                            <div class="rounded-xl border border-dashed border-[#D8C9A0] bg-[#fffaf0] p-4">
+                    <label class="block text-sm font-bold">Foto testimonial</label>
+                    <label class="mt-3 block text-[10px] font-black uppercase tracking-[.18em] text-[#6A5B3A]" for="testimonial-photo-source">Sumber foto</label><select id="testimonial-photo-source" class="mt-1 w-full rounded-lg border border-[#E3DCCB] bg-white px-3 py-2 text-sm"><option value="file">Pilih berkas dari browser / perangkat</option><option value="camera">Ambil dari kamera perangkat</option></select>
+                    <input id="gallery-image-file" type="file" accept="image/jpeg,image/png,image/webp" class="mt-2 block w-full text-sm">
+                    <p class="mt-2 text-xs text-slate-500">JPG, PNG, atau WEBP; maksimal 5 MB. Upload akan mengisi URL foto otomatis.</p>
+                    <p id="gallery-upload-message" class="mt-2 text-sm"></p>
+                    <img id="gallery-image-preview" alt="Preview gambar" class="mt-3 hidden h-28 w-full rounded-lg object-cover>
+                </div>
+                            
+                        </div>
+                        <div class="mt-6 flex items-center gap-3">
+                            <button class="rounded-xl bg-[#111111] px-4 py-3 font-bold text-white hover:bg-[#B78A2D] transition">Simpan</button>
+                            <button type="button" id="crud-cancel" class="rounded-xl border border-[#E3DCCB] px-4 py-3 font-bold text-slate-600">Batal</button>
+                        </div>
+                        <p id="crud-notice" class="mt-3 text-sm"></p>
+                    </form>
+                    </div>
+                    <div class="crud-data-column">
+                        <div id="crud-list-area" class="overflow-hidden rounded-[26px] border border-[#E8E1D5] bg-white shadow-sm h-fit">
+                
+                <div class="overflow-x-auto">
+                    <table class="w-full min-w-[420px] text-sm text-left">
+                        <thead class="bg-[#FBFAF7] text-[10px] font-black uppercase tracking-wider text-[#6A5B3A]">
+                            <tr><th class="p-4">Konten</th><th class="p-4">Status</th><th class="p-4 text-right">Aksi</th></tr>
+                        </thead>
+                        <tbody class="divide-y divide-[#E8E1D5]">
+                            <tr>
+                <td class="p-4"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQVgouwyYhHq1yWXowEY2eb-D1TOEv4a_W_TjkbgMisog&amp;s=10" alt="" class="mr-3 inline-block h-10 w-12 rounded object-cover align-middle"><span class="align-middle"><b>Peserta Pelatihan Disnaker Kab. Sleman</b><br><span class="text-xs text-slate-500">Instansi Pemerintah Daerah</span></span></td>
+                <td class="p-4"><span class="rounded-md px-2 py-1 text-[10px] font-black uppercase tracking-wider bg-emerald-100 text-emerald-800">active</span></td>
+                <td class="p-4 text-right">
+                    <button type="button" data-crud-edit="1" class="mr-3 font-bold text-[#B78A2D]">Edit</button>
+                    <button type="button" data-crud-delete="1" class="font-bold text-red-600">Hapus</button>
+                </td>
+            </tr><tr>
+                <td class="p-4"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRl1ofrv9IJhLK_0hQAgXpZhyNd0zpVaKnQCNlCRZOzHw&amp;s=10" alt="" class="mr-3 inline-block h-10 w-12 rounded object-cover align-middle"><span class="align-middle"><b>Komunitas Mahasiswa &amp; Surveyor</b><br><span class="text-xs text-slate-500">Geospatial Mapping Team</span></span></td>
+                <td class="p-4"><span class="rounded-md px-2 py-1 text-[10px] font-black uppercase tracking-wider bg-emerald-100 text-emerald-800">active</span></td>
+                <td class="p-4 text-right">
+                    <button type="button" data-crud-edit="2" class="mr-3 font-bold text-[#B78A2D]">Edit</button>
+                    <button type="button" data-crud-delete="2" class="font-bold text-red-600">Hapus</button>
+                </td>
+            </tr><tr>
+                <td class="p-4"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQjqA-sEMQi-2bkV_XmwpCK1c9JkTrmVsCvkfBKR5va1g&amp;s=10" alt="" class="mr-3 inline-block h-10 w-12 rounded object-cover align-middle"><span class="align-middle"><b>Tim Relawan Penanggulangan Bencana</b><br><span class="text-xs text-slate-500">Disaster Relief Operator</span></span></td>
+                <td class="p-4"><span class="rounded-md px-2 py-1 text-[10px] font-black uppercase tracking-wider bg-emerald-100 text-emerald-800">active</span></td>
+                <td class="p-4 text-right">
+                    <button type="button" data-crud-edit="3" class="mr-3 font-bold text-[#B78A2D]">Edit</button>
+                    <button type="button" data-crud-delete="3" class="font-bold text-red-600">Hapus</button>
+                </td>
+            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+                    </div>
+                

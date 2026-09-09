@@ -1,0 +1,62 @@
+/* ==========================================================================
+   IDTC DRONE - RESTRAINED APPLE-LEVEL MOTION DESIGN SYSTEM
+   ==========================================================================
+   Philosophy: Subtle, fast, modern, and natural.
+   Focus: Content clarity, instant responsiveness, zero scroll-jank.
+   ========================================================================== */
+
+/* 1. UNIFIED SECTION & BLOCK SCROLL REVEAL */
+.fade-in-up,
+[data-scroll-reveal] {
+  opacity: 0;
+  transform: translate3d(0, 18px, 0);
+  transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.fade-in-up.visible,
+[data-scroll-reveal].visible {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+/* 2. REFINED MICRO-INTERACTIONS (Hover States) */
+
+/* Image Subtle Hover Scale */
+.hover-zoom-img {
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.group:hover .hover-zoom-img,
+.hover-zoom-img:hover {
+  transform: scale(1.025);
+}
+
+/* Subtly Animated Badge Emblem */
+@keyframes subtlePulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.75;
+  }
+}
+
+.subtle-pulse {
+  animation: subtlePulse 3s ease-in-out infinite;
+}
+
+/* 3. ACCESSIBILITY OVERRIDES (prefers-reduced-motion) */
+@media (prefers-reduced-motion: reduce) {
+  .fade-in-up,
+  [data-scroll-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+  
+  .hover-zoom-img {
+    transition: none !important;
+  }
+}

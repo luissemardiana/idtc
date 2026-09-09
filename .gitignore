@@ -1,0 +1,44 @@
+# Local secrets and environment configuration
+.env
+.env.*
+!.env.example
+**/config.php
+**/config.local.php
+**/secrets.php
+
+# Local databases, dumps, and credentials
+*.sqlite
+*.sqlite3
+*.db
+*.sql.gz
+*.dump
+*.bak
+**/test_api.php
+
+# User-uploaded files and generated runtime data
+**/uploads/
+**/storage/
+**/cache/
+**/logs/
+*.log
+
+# Dependencies and build output
+node_modules/
+vendor/
+dist/
+build/
+
+# Local IDE and operating-system files
+.vscode/
+.idea/
+*.code-workspace
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Temporary/probe files
+**/_probe*
+**/inspect_cdp.js
+**/scan_quotes.js
+*.tmp
+*.temp
