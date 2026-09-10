@@ -602,9 +602,9 @@ $contactMapDirections = 'https://www.google.com/maps/search/?api=1&query=' . raw
         <div class="container-custom fade-in-up">
 
             <!-- Section Header -->
-            <div class="max-w-2xl mb-20">
+            <div class="max-w-4xl mb-20">
                 <div class="badge-eyebrow" style="color: var(--primary-orange);" data-i18n="credentials-eyebrow">NETWORK & CREDENTIALS</div>
-                <h2 class="text-5xl sm:text-7xl font-black uppercase tracking-tight leading-none" style="color: #111;" data-i18n="credentials-title">
+                <h2 class="credentials-heading font-black uppercase leading-none" style="color: #111;" data-i18n="credentials-title">
                     TRUSTED & RECOGNIZED
                 </h2>
                 <p class="text-base sm:text-lg mt-4 leading-relaxed font-medium" style="color: #555;" data-i18n="credentials-desc">

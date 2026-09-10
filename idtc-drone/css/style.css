@@ -738,6 +738,15 @@ body {
   color: #111111;
 }
 
+/* Keep the credentials headline compact and on a single line, including the
+   longer Indonesian translation: "TERPERCAYA & DIAKUI". */
+.credentials-heading {
+  display: block;
+  font-size: clamp(1rem, 3vw, 2.5rem) !important;
+  letter-spacing: -0.06em !important;
+  white-space: nowrap !important;
+}
+
 .credentials-category {
   margin-bottom: 3rem;
   border-bottom: 1px solid #E5E7EB;
