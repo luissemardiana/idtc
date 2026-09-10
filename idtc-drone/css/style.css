@@ -951,6 +951,20 @@ body {
   gap: 1.75rem;
 }
 
+/* Keep the certification title as one compact editorial line on tablets and
+   desktops, where its translated Indonesian label is substantially longer. */
+.certification-heading {
+  font-size: clamp(1.65rem, 5.6vw, 2.6rem);
+  letter-spacing: -0.04em;
+  white-space: nowrap;
+}
+
+@media (max-width: 420px) {
+  .certification-heading {
+    font-size: clamp(1.35rem, 7vw, 1.75rem);
+  }
+}
+
 @media (min-width: 768px) {
   .cert-card-grid {
     grid-template-columns: repeat(2, 1fr);
@@ -1838,6 +1852,30 @@ svg:not([class]) {
 @media (max-width: 640px) {
   .why-card { padding: 1.7rem 1.4rem 1.5rem; }
   .why-stamp { display: none; }
+}
+
+/* Compact chatboard override: placed last so it wins over earlier widget rules. */
+#chat-window-container {
+  right: 1rem;
+  bottom: 5.25rem;
+  width: min(360px, calc(100vw - 2rem));
+  max-width: calc(100vw - 2rem);
+  height: min(500px, calc(100dvh - 7rem));
+  max-height: calc(100dvh - 7rem);
+}
+
+#chatbot-widget {
+  right: 1rem;
+  bottom: 1rem;
+}
+
+@media (max-width: 640px) {
+  #chat-window-container {
+    bottom: 5rem;
+    width: calc(100vw - 2rem);
+    height: min(460px, calc(100dvh - 6.5rem));
+    max-height: calc(100dvh - 6.5rem);
+  }
 }
 
 /* ===========================================================================

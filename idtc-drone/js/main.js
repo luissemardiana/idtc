@@ -711,7 +711,7 @@ const i18nTranslations = {
         "nav-about": "About IDTC",
         "nav-certification": "Certification",
         "nav-gallery": "Gallery",
-        "nav-news": "Articles & News",
+        "nav-news": "Articles",
         "nav-credentials": "Credentials",
         "nav-faq": "FAQ",
         "btn-explore-training": "Explore Training",

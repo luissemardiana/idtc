@@ -467,7 +467,7 @@ $contactMapDirections = 'https://www.google.com/maps/search/?api=1&query=' . raw
         <div class="container-custom fade-in-up">
             <div class="max-w-3xl mb-16">
                 <div class="badge-eyebrow" data-i18n="cert-eyebrow">STANDARISASI &amp; KUALIFIKASI</div>
-                <h2 class="text-[1.6rem] sm:text-[2.9rem] md:text-[3.5rem] font-black text-white uppercase tracking-tight leading-none" data-i18n="cert-title">CERTIFICATION &amp; SAFETY</h2>
+                <h2 class="certification-heading font-black text-white uppercase tracking-tight leading-none" data-i18n="cert-title">CERTIFICATION &amp; SAFETY</h2>
                 <p class="text-slate-300 max-w-2xl text-base sm:text-lg mt-4 leading-relaxed" data-i18n="cert-desc">
                     Sertifikasi IDTC dirancang untuk memastikan setiap peserta menguasai teknik penerbangan yang aman dan mematuhi standar keselamatan operasional di industri.
                 </p>
@@ -842,7 +842,7 @@ $contactMapDirections = 'https://www.google.com/maps/search/?api=1&query=' . raw
                         <li><a href="#expertise" class="hover:text-primary-orange">Project & Training</a></li>
                         <li><a href="#certification" class="hover:text-primary-orange">Certification</a></li>
                         <li><a href="#gallery" class="hover:text-primary-orange">Gallery</a></li>
-                        <li><a href="#news" class="hover:text-primary-orange">Artikel & Berita</a></li>
+                        <li><a href="#news" class="hover:text-primary-orange" data-i18n="nav-news">Artikel</a></li>
                         <li><a href="#credentials" class="hover:text-primary-orange">Credentials</a></li>
                         <li><a href="#faq" class="hover:text-primary-orange">FAQ</a></li>
                     </ul>
@@ -1351,7 +1351,7 @@ $contactMapDirections = 'https://www.google.com/maps/search/?api=1&query=' . raw
         </button>
     </div>
 
-    <div id="chat-window-container" class="chat-hidden">
+    <div id="chat-window-container" class="chat-hidden" style="width:min(360px, calc(100vw - 2rem)) !important; max-width:calc(100vw - 2rem) !important; height:min(450px, calc(100dvh - 7.5rem)) !important; max-height:calc(100dvh - 7.5rem) !important; right:1rem !important; bottom:5.25rem !important;">
         <div class="bg-dark-surface border-b border-border-subtle p-4 flex items-center justify-between">
             <div class="flex items-center gap-3">
                 <div class="w-8 h-8 rounded-lg bg-primary-orange/20 border border-primary-orange text-primary-orange flex items-center justify-center font-bold">
