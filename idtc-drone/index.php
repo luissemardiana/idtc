@@ -1351,7 +1351,7 @@ $contactMapDirections = 'https://www.google.com/maps/search/?api=1&query=' . raw
         </button>
     </div>
 
-    <div id="chat-window-container" class="chat-hidden" style="width:min(360px, calc(100vw - 2rem)) !important; max-width:calc(100vw - 2rem) !important; height:min(450px, calc(100dvh - 7.5rem)) !important; max-height:calc(100dvh - 7.5rem) !important; right:1rem !important; bottom:5.25rem !important;">
+    <div id="chat-window-container" class="chat-hidden" style="width:min(430px, 80vw) !important; max-width:80vw !important; top:7rem !important; height:auto !important; max-height:none !important; right:1.5rem !important; bottom:5rem !important;">
         <div class="bg-dark-surface border-b border-border-subtle p-4 flex items-center justify-between">
             <div class="flex items-center gap-3">
                 <div class="w-8 h-8 rounded-lg bg-primary-orange/20 border border-primary-orange text-primary-orange flex items-center justify-center font-bold">
