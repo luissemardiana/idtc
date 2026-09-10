@@ -46,9 +46,16 @@ function articleExcerpt($article) {
         .article-archive-copy h2 { margin: 0; }
         .article-archive-detail { border-top: 1px solid rgba(255,255,255,.08); padding: 1rem 1.25rem 1.25rem; }
         @media (max-width: 639px) {
+            .article-archive-header { padding: 1rem 0; }
+            .article-archive-header .container-custom { gap: .75rem; }
+            .article-archive-header .btn-secondary { padding: .6rem .75rem; }
+            .article-archive-summary { align-items: flex-start; padding: .65rem; }
             .article-archive-media { gap: .75rem; }
             .article-archive-cover, .article-archive-placeholder { width: 6.5rem; height: 6.5rem; flex-basis: 6.5rem; }
+            .article-archive-copy { padding-top: .15rem; }
+            .article-archive-copy > div { align-items: flex-start; flex-direction: column; gap: .2rem; }
             .article-archive-copy h2 { font-size: .95rem; }
+            .article-archive-detail { padding: 1rem; }
         }
     </style>
 </head>

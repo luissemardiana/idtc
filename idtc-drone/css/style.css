@@ -18,6 +18,42 @@
   --scale-factor: 1.12;
 }
 
+/* Keep intrinsic content (particularly CMS text and uploaded media) from
+   widening the document beyond the viewport. */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+img,
+picture,
+video,
+canvas,
+svg,
+iframe {
+  max-width: 100%;
+}
+
+input,
+textarea,
+select,
+button {
+  max-width: 100%;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+a,
+li {
+  overflow-wrap: anywhere;
+}
+
 html {
   font-size: 19px;
 }
@@ -67,6 +103,7 @@ body {
    horizontal gutters so headings, cards, and controls stay inside viewport. */
 @media (max-width: 640px) {
   html { font-size: 16px; }
+  body { font-size: 1rem; line-height: 1.6; }
   .container-custom { padding-left: 1rem; padding-right: 1rem; }
   .navbar-sticky { padding: .55rem 0; }
   .navbar-logo-frame { padding: .34rem; }
@@ -162,10 +199,11 @@ body {
 
 .navbar-actions { flex-shrink: 0; }
 
-/* The full desktop navigation needs a minimum amount of horizontal room.
-   Below this point use the existing mobile drawer, rather than allowing the
-   menu to shrink into or overlap the brand. */
-@media (max-width: 1549px) {
+/* The full desktop navigation contains six links, a CTA, language selector,
+   and live clock. It needs more room than a typical laptop viewport; below
+   this threshold use the drawer instead of allowing the final links to sit
+   underneath the CTA. */
+@media (max-width: 2099px) {
   .navbar-desktop-links,
   .navbar-actions {
     display: none !important;
@@ -180,7 +218,7 @@ body {
   }
 }
 
-@media (min-width: 1550px) {
+@media (min-width: 2100px) {
   .navbar-desktop-links {
     min-width: 38rem;
   }
@@ -1800,4 +1838,99 @@ svg:not([class]) {
 @media (max-width: 640px) {
   .why-card { padding: 1.7rem 1.4rem 1.5rem; }
   .why-stamp { display: none; }
+}
+
+/* ===========================================================================
+   SMALL-SCREEN HARDENING
+   These rules cover dynamic CMS content too, so long titles, links, and
+   images remain usable regardless of the device width.
+   ========================================================================== */
+@media (max-width: 640px) {
+  section.py-28 {
+    padding-top: 4.5rem;
+    padding-bottom: 4.5rem;
+  }
+
+  .corporate-card,
+  .info-panel-box {
+    padding: 1.25rem;
+  }
+
+  .project-card-item {
+    min-height: 17rem;
+    padding: 1.25rem;
+  }
+
+  .credentials-section {
+    padding: 4.5rem 0;
+  }
+
+  .credentials-category-header {
+    align-items: flex-start;
+  }
+
+  .credentials-cat-title {
+    line-height: 1.35;
+  }
+
+  .cert-card-media {
+    height: 11.5rem;
+  }
+
+  .cert-card-body {
+    padding: 1.25rem;
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    min-height: 2.9rem;
+    padding: .85rem 1.25rem;
+    text-align: center;
+  }
+
+  .hero-viewport-100 .btn-primary,
+  .hero-viewport-100 .btn-secondary {
+    width: 100%;
+  }
+
+  #chatbot-widget {
+    right: max(1rem, env(safe-area-inset-right));
+    bottom: max(1rem, env(safe-area-inset-bottom));
+  }
+
+  #chat-window-container {
+    right: max(1rem, env(safe-area-inset-right));
+    bottom: calc(max(1rem, env(safe-area-inset-bottom)) + 4.5rem);
+    width: min(22.5rem, calc(100dvw - 2rem));
+    max-width: calc(100dvw - 2rem);
+    height: min(31.25rem, calc(100dvh - 7rem));
+    max-height: calc(100dvh - 7rem);
+  }
+
+  .gallery-lightbox img {
+    max-width: calc(100vw - 1.5rem);
+    max-height: calc(100dvh - 10rem);
+  }
+
+  .lightbox-caption {
+    bottom: 1rem;
+    max-width: calc(100% - 6rem);
+    font-size: .8rem;
+  }
+
+  .photo-overlay {
+    opacity: 1 !important;
+    justify-content: flex-end !important;
+    padding: .75rem;
+    background: linear-gradient(transparent 45%, rgba(0, 0, 0, .72)) !important;
+  }
+
+  .photo-overlay .view-icon {
+    display: none;
+  }
+
+  .photo-overlay .photo-caption {
+    max-width: 100%;
+    font-size: .8rem;
+  }
 }

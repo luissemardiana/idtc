@@ -153,6 +153,17 @@ $pageDesc  = $article ? htmlspecialchars(excerpt($article['summary'] ?: $article
             .article-hero img { height: 280px; }
             .article-body { font-size: 1.05rem; }
         }
+
+        @media (max-width: 480px) {
+            .article-detail-header { padding: .75rem 0; }
+            .article-detail-header .container-custom { gap: .75rem !important; }
+            .article-meta { gap: .5rem; margin-bottom: 1.25rem; }
+            .article-meta-badge { max-width: 100%; letter-spacing: .08em; }
+            .article-hero { margin-bottom: 1.5rem; border-radius: .75rem; }
+            .article-hero img { height: 210px; }
+            .article-summary-quote { padding: 1rem; margin-bottom: 1.5rem; font-size: 1rem; }
+            .article-body { font-size: 1rem; line-height: 1.75; }
+        }
     </style>
 </head>
 <body class="article-detail-page text-slate-100 antialiased">
