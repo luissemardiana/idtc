@@ -9,6 +9,7 @@ $dynamicTraining = [];
 $dynamicTestimonials = [];
 $dynamicCredentials = [];
 $dynamicCertifications = [];
+$dynamicGalleryFolders = [];
 $dynamicCms = [];
 
 if ($pdo) {
@@ -43,6 +44,24 @@ if ($pdo) {
             $stmtCert = $pdo->query("SELECT * FROM certifications WHERE status = 'active' ORDER BY display_order ASC, id ASC");
             $dynamicCertifications = $stmtCert->fetchAll(PDO::FETCH_ASSOC);
         } catch (Exception $e) { $dynamicCertifications = []; }
+
+        // Folder galeri disimpan terpisah dari foto agar folder tetap tampil
+        // meski seluruh foto di dalamnya sudah dihapus dari admin.
+        try {
+            $pdo->exec("CREATE TABLE IF NOT EXISTS gallery_folders (
+                id INT AUTO_INCREMENT PRIMARY KEY, category VARCHAR(120) NOT NULL UNIQUE,
+                description TEXT NULL, cover_image_url TEXT NULL, created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+                updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
+            try { $pdo->exec("ALTER TABLE gallery_folders ADD COLUMN description TEXT NULL AFTER category"); } catch (PDOException $e) { /* Column already exists. */ }
+            try { $pdo->exec("ALTER TABLE gallery_folders ADD COLUMN cover_image_url TEXT NULL AFTER description"); } catch (PDOException $e) { /* Column already exists. */ }
+            $pdo->exec("INSERT IGNORE INTO gallery_folders (category) SELECT DISTINCT category FROM gallery_items");
+            $stmtFolders = $pdo->query("SELECT f.category, f.description,
+                (SELECT COUNT(*) FROM gallery_items gc WHERE gc.category = f.category AND gc.status = 'active') AS photo_count,
+                COALESCE((SELECT gi.image_url FROM gallery_items gi WHERE gi.category = f.category AND gi.status = 'active' AND gi.image_url = f.cover_image_url AND gi.image_url <> '' ORDER BY gi.display_order ASC, gi.id ASC LIMIT 1), (SELECT gi.image_url FROM gallery_items gi WHERE gi.category = f.category AND gi.status = 'active' AND gi.image_url <> '' ORDER BY gi.display_order ASC, gi.id ASC LIMIT 1), '') AS image_url
+                FROM gallery_folders f ORDER BY f.category ASC");
+            $dynamicGalleryFolders = $stmtFolders->fetchAll(PDO::FETCH_ASSOC);
+        } catch (Exception $e) { $dynamicGalleryFolders = []; }
         
         // Also fetch CMS Content if table exists
         try {
@@ -498,10 +517,10 @@ $contactMapDirections = 'https://www.google.com/maps/search/?api=1&query=' . raw
     <!-- ============================================================================== -->
     <!-- 10. GALLERY — FOLDER-BASED DOCUMENTATION ARCHIVE -->
     <!-- ============================================================================== -->
-    <section id="gallery" class="py-28 md:py-36 relative">
+    <section id="gallery" class="pt-28 pb-20 md:pt-36 md:pb-20 relative">
         <div class="container-custom fade-in-up">
             <div class="max-w-3xl mb-16">
-                <div class="badge-eyebrow" data-i18n="gallery-eyebrow">DOKUMENTASI LAPANGAN</div>
+                <div class="badge-eyebrow" data-i18n="gallery-eyebrow">GALLERY</div>
                 <h2 class="text-[1.4rem] sm:text-[2.6rem] font-black text-white uppercase" data-i18n="gallery-title">GALLERY</h2>
                 <p class="text-slate-300 text-base sm:text-lg mt-3 max-w-2xl leading-relaxed" data-i18n="gallery-desc">
                     Dokumentasi kegiatan, pelatihan, proyek, dan aktivitas PT Drone Trainee Center.
@@ -510,22 +529,25 @@ $contactMapDirections = 'https://www.google.com/maps/search/?api=1&query=' . raw
 
             <!-- Folder Grid -->
             <div id="public-gallery-folders" class="gallery-single-folder-wrap">
-                <a href="gallery.php?category=training" class="gallery-folder group" id="folder-training">
+                <?php $publicFolders = $dynamicGalleryFolders ?: [['category' => 'training', 'description' => '', 'photo_count' => 0, 'image_url' => '']]; ?>
+                <?php foreach ($publicFolders as $folder): $folderCategory = trim((string)($folder['category'] ?? '')); $folderSlug = strtolower(trim(preg_replace('/[^a-z0-9]+/i', '-', $folderCategory), '-')); $folderName = strtoupper(preg_replace('/\s+/', ' ', str_replace(['-', '_'], ' ', $folderCategory))); $folderImage = trim((string)($folder['image_url'] ?? '')); $folderCount = (int)($folder['photo_count'] ?? 0); ?>
+                <a href="gallery.php?category=<?php echo rawurlencode($folderSlug); ?>" class="gallery-folder group">
                     <div class="folder-tab"></div>
                     <div class="folder-body">
                         <div class="folder-preview">
-                            <img src="https://images.unsplash.com/photo-1508614589041-895b88991e3e?q=80&w=400&auto=format&fit=crop" alt="Training" loading="lazy">
+                            <?php if ($folderImage !== ''): ?><img src="<?php echo htmlspecialchars($folderImage, ENT_QUOTES, 'UTF-8'); ?>" alt="<?php echo htmlspecialchars($folderName, ENT_QUOTES, 'UTF-8'); ?>" loading="lazy"><?php else: ?><div class="flex h-full items-center justify-center bg-[#171717] text-xs font-black uppercase tracking-widest text-slate-500">Belum ada foto</div><?php endif; ?>
                             <div class="folder-preview-overlay"></div>
                             <div class="folder-open-icon">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"/></svg>
                             </div>
                         </div>
                         <div class="folder-info">
-                            <h4 class="folder-name">TRAINING</h4>
-                            <p class="folder-count">24 Photos</p>
+                            <h4 class="folder-name"><?php echo htmlspecialchars(strtoupper($folderName), ENT_QUOTES, 'UTF-8'); ?></h4>
+                            <p class="folder-count"><?php echo $folderCount; ?> foto<?php echo !empty($folder['description']) ? ' · ' . htmlspecialchars($folder['description'], ENT_QUOTES, 'UTF-8') : ''; ?></p>
                         </div>
                     </div>
                 </a>
+                <?php endforeach; ?>
             </div>
         </div>
     </section>

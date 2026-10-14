@@ -110,24 +110,39 @@ $galleryData = [
     ],
 ];
 
-// Published gallery records override the matching static category. This keeps
-// existing folders working while allowing new admin-managed albums immediately.
+// Folder dan foto dari admin adalah sumber utama. Jangan tampilkan foto contoh
+// saat folder sudah ada tetapi fotonya telah dihapus dari admin.
 $pdo = getDbConnection();
 if ($pdo) {
     try {
-        $stmt = $pdo->query("SELECT category, title, caption, image_url, display_size FROM gallery_items WHERE status = 'active' ORDER BY category, display_order, id");
+        $galleryData = [];
+        $folderDescriptions = [];
+        try {
+            foreach ($pdo->query("SELECT category, description FROM gallery_folders") as $folder) {
+                $categoryKey = trim(preg_replace('/[^a-z0-9]+/', '-', strtolower((string)$folder['category'])), '-');
+                $folderDescriptions[$categoryKey] = trim((string)($folder['description'] ?? ''));
+                $galleryData[$categoryKey] = [
+                    'title' => strtoupper(preg_replace('/\s+/', ' ', str_replace(['-', '_'], ' ', (string)$folder['category']))),
+                    'subtitle' => 'Dokumentasi IDTC',
+                    'description' => $folderDescriptions[$categoryKey] ?: 'Belum ada foto pada folder ini.',
+                    'photos' => [],
+                    '_db' => true
+                ];
+            }
+        } catch (PDOException $e) { /* Older database without gallery_folders description. */ }
+        $stmt = $pdo->query("SELECT category, title, caption, image_url FROM gallery_items WHERE status = 'active' ORDER BY category, display_order ASC, id ASC");
         foreach ($stmt->fetchAll() as $item) {
-            $categoryKey = preg_replace('/[^a-z0-9-]/', '-', strtolower($item['category']));
-            if (!isset($galleryData[$categoryKey])) $galleryData[$categoryKey] = ['title' => strtoupper($item['category']), 'subtitle' => 'IDTC Documentation', 'description' => 'Dokumentasi IDTC.', 'photos' => []];
-            if (!isset($galleryData[$categoryKey]['_db'])) { $galleryData[$categoryKey]['photos'] = []; $galleryData[$categoryKey]['_db'] = true; }
-            $galleryData[$categoryKey]['photos'][] = ['src'=>$item['image_url'], 'caption'=>$item['caption'] ?: $item['title'], 'size'=>$item['display_size']];
+            $categoryKey = trim(preg_replace('/[^a-z0-9]+/', '-', strtolower((string)$item['category'])), '-');
+            if (!isset($galleryData[$categoryKey])) $galleryData[$categoryKey] = ['title' => strtoupper(preg_replace('/\s+/', ' ', str_replace(['-', '_'], ' ', (string)$item['category']))), 'subtitle' => 'Gallery IDTC', 'description' => 'Gallery IDTC.', 'photos' => [], '_db' => true];
+            if (!empty($folderDescriptions[$categoryKey])) $galleryData[$categoryKey]['description'] = $folderDescriptions[$categoryKey];
+            $galleryData[$categoryKey]['photos'][] = ['src'=>$item['image_url'], 'caption'=>$item['caption'] ?: $item['title']];
         }
     } catch (PDOException $e) { /* static gallery fallback */ }
 }
 
 // Get category from URL
 $category = isset($_GET['category']) ? $_GET['category'] : '';
-$category = preg_replace('/[^a-z0-9\-]/', '', $category); // sanitize
+$category = trim(preg_replace('/[^a-z0-9]+/', '-', strtolower($category)), '-'); // slug canonicalization
 
 if (!isset($galleryData[$category])) {
     header('Location: index.php#gallery');
@@ -235,8 +250,7 @@ $photoCount = count($data['photos']);
                     <div class="gallery-masonry-item photo-stagger" data-index="<?php echo $i; ?>" onclick="openLightbox(<?php echo $i; ?>)">
                         <img src="<?php echo htmlspecialchars($photo['src']); ?>"
                              alt="<?php echo htmlspecialchars($photo['caption']); ?>"
-                             loading="lazy"
-                             <?php if ($photo['size'] === 'large'): ?>style="aspect-ratio: 16/10;"<?php elseif ($photo['size'] === 'small'): ?>style="aspect-ratio: 4/3;"<?php else: ?>style="aspect-ratio: 3/2;"<?php endif; ?>>
+                             loading="lazy">
                         <div class="photo-overlay">
                             <div class="view-icon">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"/></svg>
@@ -247,6 +261,11 @@ $photoCount = count($data['photos']);
                         </div>
                     </div>
                     <?php endforeach; ?>
+                    <?php if (empty($data['photos'])): ?>
+                    <div class="col-span-full rounded-2xl border border-white/10 bg-white/[.03] px-6 py-16 text-center text-slate-400">
+                        Belum ada foto dalam folder ini.
+                    </div>
+                    <?php endif; ?>
                 </div>
             </div>
         </section>

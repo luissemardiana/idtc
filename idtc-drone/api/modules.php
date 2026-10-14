@@ -8,7 +8,7 @@ $action = $_GET['action'] ?? 'list';
 $tables = [
     'training' => ['table' => 'training_programs', 'fields' => ['title','subtitle','description','duration','target_audience','features','image_url','status','display_order']],
     'services' => ['table' => 'services', 'fields' => ['title','category','subtitle','description','image_url','full_case_study','metrics','status','display_order']],
-    'gallery' => ['table' => 'gallery_items', 'fields' => ['category','title','caption','image_url','display_size','status','display_order']],
+    'gallery' => ['table' => 'gallery_items', 'fields' => ['category','title','caption','image_url','status','display_order']],
     'testimonials' => ['table' => 'testimonials', 'fields' => ['customer_name','role','testimonial','photo_url','status','display_order']],
     'credentials' => ['table' => 'credentials', 'fields' => ['category','org_name','relationship','image_url','status','display_order']],
     'certifications' => ['table' => 'certifications', 'fields' => ['category','title','description','image_url','status','display_order']],
@@ -85,6 +85,22 @@ function removeManagedGalleryFile(string $url): void {
         if (is_file($path)) @unlink($path);
     }
 }
+function normalizeGalleryCategoryOrder(PDO $pdo, string $category, ?int $insertId = null, int $position = 0): void {
+    if ($insertId !== null) {
+        $stmt = $pdo->prepare('SELECT id FROM gallery_items WHERE category = ? AND id <> ? ORDER BY display_order ASC, id ASC');
+        $stmt->execute([$category, $insertId]);
+    } else {
+        $stmt = $pdo->prepare('SELECT id FROM gallery_items WHERE category = ? ORDER BY display_order ASC, id ASC');
+        $stmt->execute([$category]);
+    }
+    $ids = array_map('intval', $stmt->fetchAll(PDO::FETCH_COLUMN));
+    if ($insertId !== null) {
+        $position = $position < 1 ? count($ids) + 1 : min($position, count($ids) + 1);
+        array_splice($ids, $position - 1, 0, [$insertId]);
+    }
+    $update = $pdo->prepare('UPDATE gallery_items SET display_order = ? WHERE id = ?');
+    foreach ($ids as $index => $photoId) $update->execute([$index + 1, $photoId]);
+}
 
 if ($action === 'list') {
     try {
@@ -138,9 +154,13 @@ if ($module === 'gallery' && in_array($action, ['folder_list', 'folder_save', 'f
         $pdo->exec("CREATE TABLE IF NOT EXISTS gallery_folders (
             id INT AUTO_INCREMENT PRIMARY KEY,
             category VARCHAR(120) NOT NULL UNIQUE,
+            description TEXT NULL,
+            cover_image_url TEXT NULL,
             created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
             updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
+        try { $pdo->exec("ALTER TABLE gallery_folders ADD COLUMN description TEXT NULL AFTER category"); } catch (PDOException $e) { /* Column already exists. */ }
+        try { $pdo->exec("ALTER TABLE gallery_folders ADD COLUMN cover_image_url TEXT NULL AFTER description"); } catch (PDOException $e) { /* Column already exists. */ }
         // Adopt categories that already exist on gallery photos so every folder is manageable.
         $pdo->exec("INSERT IGNORE INTO gallery_folders (category) SELECT DISTINCT category FROM gallery_items");
     } catch (PDOException $e) { /* table already exists or DB locked — keep going */ }
@@ -152,11 +172,11 @@ if ($module === 'gallery' && in_array($action, ['folder_list', 'folder_save', 'f
 
     if ($action === 'folder_list') {
         $byCategory = [];
-        foreach ($pdo->query('SELECT id, category FROM gallery_folders ORDER BY category') as $row) {
-            $byCategory[$row['category']] = ['id' => (int)$row['id'], 'category' => $row['category'], 'count' => 0];
+        foreach ($pdo->query('SELECT id, category, description, cover_image_url FROM gallery_folders ORDER BY category') as $row) {
+            $byCategory[$row['category']] = ['id' => (int)$row['id'], 'category' => $row['category'], 'description' => $row['description'] ?? '', 'cover_image_url' => $row['cover_image_url'] ?? '', 'count' => 0];
         }
         foreach ($pdo->query('SELECT category, COUNT(*) AS c FROM gallery_items GROUP BY category') as $row) {
-            if (!isset($byCategory[$row['category']])) $byCategory[$row['category']] = ['id' => null, 'category' => $row['category'], 'count' => 0];
+            if (!isset($byCategory[$row['category']])) $byCategory[$row['category']] = ['id' => null, 'category' => $row['category'], 'description' => '', 'cover_image_url' => '', 'count' => 0];
             $byCategory[$row['category']]['count'] = (int)$row['c'];
         }
         echo json_encode(['status' => 'success', 'data' => array_values($byCategory)]); exit;
@@ -166,6 +186,8 @@ if ($module === 'gallery' && in_array($action, ['folder_list', 'folder_save', 'f
         $id = filter_var($input['id'] ?? 0, FILTER_VALIDATE_INT);
         $oldCategory = trim((string)($input['old_category'] ?? ''));
         $rawName = trim((string)($input['category'] ?? ''));
+        $description = trim((string)($input['description'] ?? ''));
+        $coverImageUrl = trim((string)($input['cover_image_url'] ?? ''));
         if ($rawName === '') { http_response_code(422); echo json_encode(['status' => 'error', 'message' => 'Nama folder wajib diisi.']); exit; }
         $category = $slugify($rawName);
         if ($category === '') { http_response_code(422); echo json_encode(['status' => 'error', 'message' => 'Nama folder tidak valid.']); exit; }
@@ -177,27 +199,41 @@ if ($module === 'gallery' && in_array($action, ['folder_list', 'folder_save', 'f
                 $oldStmt->execute([$id]);
                 $old = $oldStmt->fetchColumn();
                 if (!$old) { http_response_code(404); echo json_encode(['status' => 'error', 'message' => 'Folder tidak ditemukan.']); exit; }
+                if ($coverImageUrl !== '') {
+                    $coverCategory = $category === $old ? $old : $category;
+                    $coverCheck = $pdo->prepare("SELECT COUNT(*) FROM gallery_items WHERE category = ? AND image_url = ? AND status = 'active'");
+                    $coverCheck->execute([$coverCategory, $coverImageUrl]);
+                    $validCover = (bool)(int)$coverCheck->fetchColumn();
+                    if (!$validCover && $category !== $old) {
+                        $coverCheck->execute([$old, $coverImageUrl]);
+                        $validCover = (bool)(int)$coverCheck->fetchColumn();
+                    }
+                    if (!$validCover) { http_response_code(422); echo json_encode(['status' => 'error', 'message' => 'Foto sampul harus berasal dari foto aktif di folder ini.']); exit; }
+                }
                 if ($category !== $old && ($existsInFolders($category) || $existsInItems($category))) { http_response_code(422); echo json_encode(['status' => 'error', 'message' => 'Nama folder sudah digunakan folder lain. Pilih nama lain.']); exit; }
                 if ($category !== $old) {
                     $pdo->beginTransaction();
-                    $pdo->prepare('UPDATE gallery_folders SET category = ? WHERE id = ?')->execute([$category, $id]);
+                    $pdo->prepare('UPDATE gallery_folders SET category = ?, description = ? WHERE id = ?')->execute([$category, $description, $id]);
                     $pdo->prepare('UPDATE gallery_items SET category = ? WHERE category = ?')->execute([$category, $old]);
                     $pdo->commit();
+                } else {
+                    if (array_key_exists('cover_image_url', $input)) $pdo->prepare('UPDATE gallery_folders SET description = ?, cover_image_url = ? WHERE id = ?')->execute([$description, $coverImageUrl ?: null, $id]);
+                    else $pdo->prepare('UPDATE gallery_folders SET description = ? WHERE id = ?')->execute([$description, $id]);
                 }
-                echo json_encode(['status' => 'success', 'message' => 'Folder berhasil diganti namanya.', 'category' => $category]); exit;
+                echo json_encode(['status' => 'success', 'message' => 'Folder berhasil diperbarui.', 'category' => $category]); exit;
             }
             if ($oldCategory !== '') {
                 // Rename a folder that only exists as a category on photos (no folder row yet).
                 if ($existsInFolders($category) || $existsInItems($category)) { http_response_code(422); echo json_encode(['status' => 'error', 'message' => 'Nama folder sudah digunakan folder lain. Pilih nama lain.']); exit; }
                 $pdo->beginTransaction();
-                $pdo->prepare('INSERT INTO gallery_folders (category) VALUES (?)')->execute([$category]);
+                $pdo->prepare('INSERT INTO gallery_folders (category, description) VALUES (?, ?)')->execute([$category, $description]);
                 $pdo->prepare('UPDATE gallery_items SET category = ? WHERE category = ?')->execute([$category, $oldCategory]);
                 $pdo->prepare('DELETE FROM gallery_folders WHERE category = ?')->execute([$oldCategory]);
                 $pdo->commit();
                 echo json_encode(['status' => 'success', 'message' => 'Folder berhasil diganti namanya.', 'category' => $category]); exit;
             }
             if ($existsInFolders($category) || $existsInItems($category)) { http_response_code(422); echo json_encode(['status' => 'error', 'message' => 'Folder dengan nama itu sudah ada.']); exit; }
-            $pdo->prepare('INSERT INTO gallery_folders (category) VALUES (?)')->execute([$category]);
+            $pdo->prepare('INSERT INTO gallery_folders (category, description, cover_image_url) VALUES (?, ?, ?)')->execute([$category, $description, $coverImageUrl ?: null]);
             echo json_encode(['status' => 'success', 'message' => 'Folder berhasil ditambahkan.', 'category' => $category]); exit;
         } catch (PDOException $e) {
             if ($pdo->inTransaction()) $pdo->rollBack();
@@ -233,7 +269,6 @@ if ($action === 'save') {
         $value = trim((string)($input[$field] ?? ''));
         if ($field === 'display_order') $value = $value === '' ? 0 : (int)$value;
         if ($field === 'status' && !in_array($value, ['active','draft'], true)) $value = 'draft';
-        if ($field === 'display_size' && !in_array($value, ['small','medium','large'], true)) $value = 'medium';
         $values[$field] = $value;
     }
     // Wajib diisi untuk semua modul CRUD.
@@ -247,23 +282,16 @@ if ($action === 'save') {
             if (in_array($module, ['gallery','credentials','certifications'], true)) { $oldStmt = $pdo->prepare('SELECT image_url FROM ' . $meta['table'] . ' WHERE id = ? FOR UPDATE'); $oldStmt->execute([$id]); $old = $oldStmt->fetchColumn() ?: null; }
             if ($module === 'testimonials') { $oldStmt = $pdo->prepare('SELECT photo_url FROM testimonials WHERE id = ? FOR UPDATE'); $oldStmt->execute([$id]); $old = $oldStmt->fetchColumn() ?: null; }
             if ($module === 'gallery') { $orderStmt = $pdo->prepare('SELECT category, display_order FROM gallery_items WHERE id = ? FOR UPDATE'); $orderStmt->execute([$id]); $existing = $orderStmt->fetch(); }
-            if ($module === 'gallery' && $existing) {
-                $oldOrder = (int)$existing['display_order'];
-                $newOrder = (int)$values['display_order'];
-                $oldCategory = $existing['category'];
-                if ($newOrder < 1) $newOrder = $oldOrder;
-                // Moving an existing image swaps it with the image at its target
-                // position. Category changes keep each category independently ordered.
-                if ($newOrder !== $oldOrder || $values['category'] !== $oldCategory) {
-                    $target = $pdo->prepare('SELECT id FROM gallery_items WHERE category = ? AND display_order = ? AND id != ? LIMIT 1 FOR UPDATE');
-                    $target->execute([$values['category'], $newOrder, $id]); $targetId = $target->fetchColumn();
-                    if ($targetId) { $swap = $pdo->prepare('UPDATE gallery_items SET display_order = ? WHERE id = ?'); $swap->execute([$oldOrder, $targetId]); }
-                    $values['display_order'] = $newOrder;
-                }
-            }
+            if ($module === 'gallery' && !$existing) { http_response_code(404); echo json_encode(['status'=>'error','message'=>'Foto tidak ditemukan.']); exit; }
+            $oldCategory = $module === 'gallery' && $existing ? (string)$existing['category'] : '';
+            $targetOrder = $module === 'gallery' ? (int)$values['display_order'] : 0;
             $sets = implode(', ', array_map(fn($f) => "$f = ?", $meta['fields']));
             $stmt = $pdo->prepare("UPDATE {$meta['table']} SET $sets WHERE id = ?");
             $stmt->execute([...array_values($values), $id]);
+            if ($module === 'gallery') {
+                if ($oldCategory !== $values['category']) normalizeGalleryCategoryOrder($pdo, $oldCategory);
+                normalizeGalleryCategoryOrder($pdo, $values['category'], (int)$id, $targetOrder);
+            }
             $newMediaUrl = $module === 'testimonials' ? $values['photo_url'] : ($values['image_url'] ?? '');
             if (in_array($module, ['gallery','credentials','certifications','testimonials'], true) && $old && $old !== $newMediaUrl) removeManagedGalleryFile($old);
         } else {
@@ -278,6 +306,7 @@ if ($action === 'save') {
             $stmt = $pdo->prepare("INSERT INTO {$meta['table']} ($columns) VALUES ($marks)");
             $stmt->execute(array_values($values));
             $id = $pdo->lastInsertId();
+            if ($module === 'gallery') normalizeGalleryCategoryOrder($pdo, $values['category'], (int)$id, $wanted);
         }
         $pdo->commit();
         echo json_encode(['status'=>'success','message'=>'Konten berhasil disimpan.','id'=>$id]); exit;

@@ -101,18 +101,20 @@ try {
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
     $pdo->exec("CREATE TABLE IF NOT EXISTS gallery_items (
         id INT AUTO_INCREMENT PRIMARY KEY, category VARCHAR(100) NOT NULL, title VARCHAR(180) NOT NULL,
-        caption VARCHAR(255) NULL, image_url TEXT NOT NULL, display_size ENUM('small','medium','large') NOT NULL DEFAULT 'medium',
+        caption VARCHAR(255) NULL, image_url TEXT NOT NULL,
         status ENUM('active','draft') NOT NULL DEFAULT 'active', display_order INT NOT NULL DEFAULT 0,
         created_at DATETIME DEFAULT CURRENT_TIMESTAMP, updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
         INDEX idx_gallery_public (category, status, display_order)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
-    // Gallery photo folders (DOKUMENTASI LAPANGAN). Categories group photos and
+    // Gallery photo folders. Categories group photos and
     // mirror the folder cards shown on the public TRAINING GALLERY section.
     $pdo->exec("CREATE TABLE IF NOT EXISTS gallery_folders (
-        id INT AUTO_INCREMENT PRIMARY KEY, category VARCHAR(120) NOT NULL UNIQUE,
+        id INT AUTO_INCREMENT PRIMARY KEY, category VARCHAR(120) NOT NULL UNIQUE, description TEXT NULL, cover_image_url TEXT NULL,
         created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
         updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
+    try { $pdo->exec("ALTER TABLE gallery_folders ADD COLUMN description TEXT NULL AFTER category"); } catch (PDOException $e) { /* Column already exists. */ }
+    try { $pdo->exec("ALTER TABLE gallery_folders ADD COLUMN cover_image_url TEXT NULL AFTER description"); } catch (PDOException $e) { /* Column already exists. */ }
     $pdo->exec("INSERT IGNORE INTO gallery_folders (category) SELECT DISTINCT category FROM gallery_items");
     // Network & Credentials (TRUSTED & RECOGNIZED) content module. Creating the
     // table here keeps fresh installs in sync with the ad-hoc creation in the API.

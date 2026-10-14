@@ -141,7 +141,7 @@ $isModuleActive = static function (string $name) use ($initialModule): bool { re
                 <button data-target="hero" class="nav-btn<?php echo $isModuleActive('hero') ? ' active' : ''; ?> w-full flex items-center gap-3 px-3.5 py-3 text-left text-xs font-black uppercase tracking-[0.14em] transition hover:bg-white/5"><svg class="nav-ic h-[18px] w-[18px] shrink-0 text-[#FF5E00]" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8" cy="9" r="1.5"/><path d="m21 15-5-5L5 20"/></svg><span>Hero Beranda</span></button>
                 <button data-target="training" class="nav-btn<?php echo $isModuleActive('training') ? ' active' : ''; ?> w-full flex items-center gap-3 px-3.5 py-3 text-left text-xs font-black uppercase tracking-[0.14em] transition hover:bg-white/5"><svg class="nav-ic h-[18px] w-[18px] shrink-0 text-[#FF5E00]" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M22 10L12 5 2 10l10 5 10-5z"/><path d="M6 12v5c0 1.7 2.7 3 6 3s6-1.3 6-3v-5"/></svg><span>Training Programs</span></button>
                 <button data-target="services" class="nav-btn<?php echo $isModuleActive('services') ? ' active' : ''; ?> w-full flex items-center gap-3 px-3.5 py-3 text-left text-xs font-black uppercase tracking-[0.14em] transition hover:bg-white/5"><svg class="nav-ic h-[18px] w-[18px] shrink-0 text-[#FF5E00]" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg><span>Services</span></button>
-                <button data-target="gallery" class="nav-btn<?php echo $isModuleActive('gallery') ? ' active' : ''; ?> w-full flex items-center gap-3 px-3.5 py-3 text-left text-xs font-black uppercase tracking-[0.14em] transition hover:bg-white/5"><svg class="nav-ic h-[18px] w-[18px] shrink-0 text-[#FF5E00]" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg><span>Dokumentasi Laporan</span></button>
+                <button data-target="gallery" class="nav-btn<?php echo $isModuleActive('gallery') ? ' active' : ''; ?> w-full flex items-center gap-3 px-3.5 py-3 text-left text-xs font-black uppercase tracking-[0.14em] transition hover:bg-white/5"><svg class="nav-ic h-[18px] w-[18px] shrink-0 text-[#FF5E00]" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg><span>Gallery</span></button>
                 <button data-target="testimonials" class="nav-btn<?php echo $isModuleActive('testimonials') ? ' active' : ''; ?> w-full flex items-center gap-3 px-3.5 py-3 text-left text-xs font-black uppercase tracking-[0.14em] transition hover:bg-white/5"><svg class="nav-ic h-[18px] w-[18px] shrink-0 text-[#FF5E00]" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span>Testimonials</span></button>
                 <button data-target="credentials" class="nav-btn<?php echo $isModuleActive('credentials') ? ' active' : ''; ?> w-full flex items-center gap-3 px-3.5 py-3 text-left text-xs font-black uppercase tracking-[0.14em] transition hover:bg-white/5"><svg class="nav-ic h-[18px] w-[18px] shrink-0 text-[#FF5E00]" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12 2l2.4 4.9 5.4.8-3.9 3.8.9 5.4-4.8-2.5-4.8 2.5.9-5.4L4.2 7.7l5.4-.8z"/></svg><span>Credentials</span></button>
                 <button data-target="certifications" class="nav-btn<?php echo $isModuleActive('certifications') ? ' active' : ''; ?> w-full flex items-center gap-3 px-3.5 py-3 text-left text-xs font-black uppercase tracking-[0.14em] transition hover:bg-white/5"><svg class="nav-ic h-[18px] w-[18px] shrink-0 text-[#FF5E00]" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="12" cy="8" r="6"/><path d="M15.5 13l2 7-5.5-3-5.5 3 2-7"/></svg><span>Certifications</span></button>
@@ -473,7 +473,7 @@ CENTER</textarea></div>
         const findUsKeys = ['contact-email', 'contact-whatsapp', 'contact-address', 'contact-instagram'];
         const findUsFields = { 'contact-email': 'findus-email', 'contact-whatsapp': 'findus-whatsapp', 'contact-address': 'findus-address', 'contact-instagram': 'findus-instagram' };
 
-        const moduleLabels = { dashboard: 'Dashboard', hero: 'Hero Beranda', training: 'Training Programs', services: 'Services', gallery: 'Dokumentasi Laporan (Galeri)', testimonials: 'Testimonials', credentials: 'Credentials', certifications: 'Certifications', articles: 'Artikel', findus: 'Find Us (Kontak)', cms: 'Site Content (CMS)', profile: 'Profil Admin' };
+        const moduleLabels = { dashboard: 'Dashboard', hero: 'Hero Beranda', training: 'Training Programs', services: 'Services', gallery: 'Gallery', testimonials: 'Testimonials', credentials: 'Credentials', certifications: 'Certifications', articles: 'Artikel', findus: 'Find Us (Kontak)', cms: 'Site Content (CMS)', profile: 'Profil Admin' };
 
         // Terapkan layout yang sama untuk semua modul CRUD: form kiri (380px), data kanan (minmax(0, 1fr))
         function enforceCrudSideBySide() {
@@ -521,7 +521,7 @@ CENTER</textarea></div>
             // full_case_study & metrics dikelola lewat editor Case Study terstruktur (renderServicesCaseBlock).
             // Dokumen folders pada halaman user (DOKUMENTASI LAPANGAN / TRAINING GALLERY).
             // Kategori disimpan sebagai slug; folder publik dibuat dari kategori ini.
-            gallery: [['category','Folder (pilih dari daftar)'],['title','Judul'],['caption','Caption'],['image_url','URL gambar'],['display_size','Ukuran','size'],['display_order','Urutan','number'],['status','Status','select']],
+            gallery: [['category','Folder (pilih dari daftar)'],['caption','Caption'],['image_url','URL gambar'],['display_order','Urutan','number'],['status','Status','select']],
             testimonials: [['customer_name','Nama Alumni/Instansi'],['role','Peran/Instansi'],['testimonial','Testimoni','textarea'],['photo_url','URL foto (opsional)'],['display_order','Urutan','number'],['status','Status','select']],
             credentials: [['category','Kategori (mis. REGULATORY & AVIATION)'],['org_name','Nama Organisasi / Lembaga'],['relationship','Hubungan / Keterangan'],['image_url','URL gambar (opsional)'],['display_order','Urutan','number'],['status','Status','select']],
             certifications: [['category','Kategori / Badge (mis. PILOT QUALIFICATION)'],['title','Judul Sertifikasi'],['description','Deskripsi','textarea'],['image_url','URL gambar (opsional)'],['display_order','Urutan','number'],['status','Status','select']]
@@ -529,20 +529,18 @@ CENTER</textarea></div>
 
         // ====== DOKUMENTASI LAPORAN (GALERI) — folder options & per-folder CRUD ======
         // Urutan/slug folder sama dengan pilihan folder pada halaman utama (TRAINING GALLERY).
-        const galleryFolderPresets = ['facilities','certifications','drone-operations','events','projects','training','team-activities'];
+        function galleryFolderLabel(value) { return String(value || '').replace(/[-_]+/g, ' ').replace(/\s+/g, ' ').trim().toUpperCase(); }
         function galleryCategoryOptions(current = '') {
             const seen = [];
             const add = cat => { cat = String(cat || '').trim(); if (cat && seen.indexOf(cat) === -1) seen.push(cat); };
-            galleryFolderPresets.forEach(add);
             (galleryFolders || []).forEach(folder => add(folder.category));
-            (crudItems || []).forEach(item => add(item.category));
             add(current);
             let opts = '<option value="">— Pilih Folder —</option>';
-            seen.forEach(cat => { opts += `<option value="${escapeHtml(cat)}"${String(current) === cat ? ' selected' : ''}>${escapeHtml(String(cat).toUpperCase())}</option>`; });
+            seen.forEach(cat => { opts += `<option value="${escapeHtml(cat)}"${String(current) === cat ? ' selected' : ''}>${escapeHtml(galleryFolderLabel(cat))}</option>`; });
             return opts;
         }
         function galleryCategoryField(current = '') {
-            return `<label class="block text-[10px] font-black uppercase tracking-[0.2em] text-[#6A5B3A] mb-1">Folder Dokumentasi Laporan <span class="text-red-500">*</span></label>
+            return `<label class="block text-[10px] font-black uppercase tracking-[0.2em] text-[#6A5B3A] mb-1">Folder Gallery <span class="text-red-500">*</span></label>
                 <select id="gallery-category-select" name="category" class="w-full rounded-xl border border-[#E3DCCB] px-3 py-2.5">${galleryCategoryOptions(current)}</select>
                 <input id="gallery-category-new" type="text" placeholder="Atau ketik nama folder baru (mis. DRONE EXPO 2026)" class="mt-2 hidden w-full rounded-xl border border-[#E3DCCB] px-3 py-2.5">
                 <button type="button" id="gallery-category-new-toggle" class="mt-2 inline-flex items-center gap-1 text-xs font-black uppercase tracking-wider text-[#B78A2D] hover:text-[#8a6a1c]">➕ Folder Baru Lainnya…</button>`;
@@ -775,29 +773,31 @@ CENTER</textarea></div>
             const counts = {};
             (crudItems || []).forEach(x => { const c = String(x.category || '').trim(); if (c) counts[c] = (counts[c] || 0) + 1; });
             const byCat = {};
-            (galleryFolders || []).forEach(f => { byCat[f.category] = { id: f.id, category: f.category }; });
-            Object.keys(counts).forEach(c => { if (!byCat[c]) byCat[c] = { id: null, category: c }; });
-            const ordered = [];
-            const pushIf = f => { if (f && ordered.indexOf(f) === -1) ordered.push(f); };
-            galleryFolderPresets.forEach(p => { pushIf(byCat[p]); });
-            Object.keys(byCat).map(k => byCat[k]).filter(f => ordered.indexOf(f) === -1).sort((a, b) => String(a.category).localeCompare(String(b.category))).forEach(pushIf);
-            return ordered.map(f => ({ id: f.id, category: f.category, count: counts[f.category] || 0 }));
+            (galleryFolders || []).forEach(f => { byCat[f.category] = { id: f.id, category: f.category, description: f.description || '', cover_image_url: f.cover_image_url || '' }; });
+            Object.keys(counts).forEach(c => { if (!byCat[c]) byCat[c] = { id: null, category: c, description: '', cover_image_url: '' }; });
+            return Object.keys(byCat).map(key => byCat[key]).sort((a, b) => String(a.category).localeCompare(String(b.category))).map(f => {
+                const photos = (crudItems || []).filter(item => String(item.category) === String(f.category));
+                const activePhotos = photos.filter(item => item.status === 'active');
+                const cover = f.cover_image_url || activePhotos[0]?.image_url || photos[0]?.image_url || '';
+                const choices = (activePhotos.length ? activePhotos : photos).map(photo => `<option value="${escapeHtml(photo.image_url || '')}"${String(cover) === String(photo.image_url || '') ? ' selected' : ''}>Foto #${photo.id}</option>`).join('');
+                return { ...f, count: counts[f.category] || 0, cover_image_url: cover, cover_options: choices };
+            });
         }
         function galleryFolderManagerHtml() {
             if (currentModule !== 'gallery') return '';
             const folders = galleryFolderItems();
             const rows = folders.map(f => {
                 const isEdit = galleryFolderRenameCat !== null && String(galleryFolderRenameCat) === String(f.category);
-                const upCat = escapeHtml(String(f.category).toUpperCase());
+                const upCat = escapeHtml(galleryFolderLabel(f.category));
                 const catAttr = escapeHtml(f.category);
                 const rowActions = isEdit
-                    ? `<button type="button" data-folder-rename-save class="mr-2 rounded-lg bg-[#B78A2D] px-3 py-1.5 text-xs font-black uppercase tracking-wider text-white hover:bg-[#8a6a1c]">Simpan Nama</button>
+                    ? `<button type="button" data-folder-rename-save class="mr-2 rounded-lg bg-[#B78A2D] px-3 py-1.5 text-xs font-black uppercase tracking-wider text-white hover:bg-[#8a6a1c]">Simpan</button>
                        <button type="button" data-folder-rename-cancel class="rounded-lg border border-[#E3DCCB] px-3 py-1.5 text-xs font-bold text-slate-600 hover:bg-slate-50">Batal</button>`
-                    : `<button type="button" data-folder-rename="${catAttr}" class="mr-3 font-bold text-[#B78A2D] hover:text-[#8a6a1c]">Ganti Nama</button>
+                    : `<button type="button" data-folder-rename="${catAttr}" class="mr-3 font-bold text-[#B78A2D] hover:text-[#8a6a1c]">Edit</button>
                        <button type="button" data-folder-delete="${catAttr}" class="font-bold text-red-600 hover:text-red-700">Hapus</button>`;
                 const nameCell = isEdit
-                    ? `<input id="gallery-folder-rename-input" type="text" value="${catAttr}" data-old-category="${catAttr}" class="w-full rounded-lg border border-[#B78A2D] bg-white px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#B78A2D]/20">`
-                    : `<button type="button" data-folder-open="${catAttr}" class="text-left text-sm font-black uppercase tracking-wider text-[#111111] hover:text-[#FF5E00]" title="Buka isi folder">${upCat}</button>`;
+                    ? `<input id="gallery-folder-rename-input" type="text" value="${catAttr}" data-old-category="${catAttr}" class="mb-2 w-full rounded-lg border border-[#B78A2D] bg-white px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#B78A2D]/20"><textarea id="gallery-folder-description-input" rows="2" placeholder="Keterangan folder yang tampil di halaman galeri" class="w-full rounded-lg border border-[#E3DCCB] bg-white px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-[#B78A2D]/20">${escapeHtml(f.description || '')}</textarea>`
+                    : `<button type="button" data-folder-open="${catAttr}" class="text-left text-sm font-black uppercase tracking-wider text-[#111111] hover:text-[#FF5E00]" title="Buka isi folder">${upCat}</button><label class="mt-2 block text-[10px] font-bold uppercase tracking-wider text-slate-500">Foto sampul<select data-folder-cover="${catAttr}" class="mt-1 block w-full rounded-lg border border-[#E3DCCB] bg-white px-2 py-1.5 text-xs"${f.cover_options ? '' : ' disabled'}>${f.cover_options || '<option value="">Belum ada foto</option>'}</select></label>${f.description ? `<p class="mt-1 text-xs text-slate-500">${escapeHtml(f.description)}</p>` : ''}`;
                 return `<tr class="border-b border-[#F4EFE6] last:border-0">
                     <td class="px-4 py-2.5">${nameCell}<span class="ml-2 rounded-full bg-[#F4F0E6] px-2 py-0.5 text-[10px] font-bold text-[#8A7B58]">${f.count} foto</span></td>
                     <td class="px-4 py-2.5 text-right whitespace-nowrap">${rowActions}</td>
@@ -811,8 +811,9 @@ CENTER</textarea></div>
                     </summary>
                     <div class="mt-3 flex flex-wrap items-center justify-between gap-2">
                         <p class="text-[11px] text-slate-500">${folders.length} folder terdaftar. Klik “Buka Isi” untuk melihat & mengelola foto folder tersebut.</p>
-                        <div class="flex items-center gap-2">
+                        <div class="flex flex-wrap items-center gap-2">
                             <input id="gallery-folder-new-name" type="text" placeholder="Nama folder baru (mis. Drone Expo)" class="w-52 rounded-lg border border-[#E3DCCB] bg-white px-3 py-2 text-sm focus:border-[#B78A2D] focus:outline-none">
+                            <input id="gallery-folder-new-description" type="text" placeholder="Keterangan folder (opsional)" class="w-64 rounded-lg border border-[#E3DCCB] bg-white px-3 py-2 text-sm focus:border-[#B78A2D] focus:outline-none">
                             <button type="button" data-folder-add class="rounded-lg bg-[#111111] px-4 py-2 text-xs font-black uppercase tracking-wider text-white hover:bg-[#B78A2D]">＋ Tambah Folder</button>
                         </div>
                     </div>
@@ -828,7 +829,7 @@ CENTER</textarea></div>
             if (currentModule !== 'gallery') return '';
             const folders = galleryFolderItems();
             const chip = (value, count) => {
-                const label = value ? String(value).toUpperCase() : 'Semua Folder';
+                const label = value ? galleryFolderLabel(value) : 'Semua Folder';
                 const active = String(crudGalleryFilter || '') === String(value || '');
                 return `<button type="button" data-folder="${escapeHtml(value || '')}" class="gallery-folder-chip inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-[10px] font-black uppercase tracking-wider transition ${active ? 'border-[#FF5E00] bg-[#FF5E00] text-white shadow-sm' : 'border-[#E3DCCB] bg-white text-[#6A5B3A] hover:border-[#B78A2D] hover:text-[#B78A2D]'}">${escapeHtml(label)}<span class="rounded-full px-1.5 text-[9px] ${active ? 'bg-white/25 text-white' : 'bg-[#F4F0E6] text-[#8A7B58]'}">${count}</span></button>`;
             };
@@ -837,20 +838,17 @@ CENTER</textarea></div>
                         <div class="mt-3 flex flex-wrap items-center gap-2">${chip('', (crudItems || []).length)}${folders.map(f => chip(f.category, f.count)).join('')}</div>
                     </div>`;
         }
-        // ---- Galeri: daftar konten digabung per nama foto (folder + judul). ----
-        // Foto yang sama namanya (mis. "Main Training Room" punya beberapa foto) cukup
-        // ditampilkan 1 baris + jumlah fotonya; foto-foto lainnya tetap utuh di halaman user.
-        // Jumlah dihitung ulang setiap render (loadCrudModule), jadi otomatis berkurang
-        // saat foto dihapus dan bertambah saat foto baru ditambahkan.
-        function galleryGroupKey(cat, title) { return String(cat || '').trim() + '\u0001' + String(title || '').trim(); }
+        // Foto aktif dikelompokkan per folder, tanpa melihat caption. Foto draf
+        // selalu berdiri sendiri agar tidak bercampur dengan galeri publik.
+        function galleryGroupKey(cat, status, id) { return String(cat || '').trim() + '\u0001' + (status === 'draft' ? 'draft:' + id : 'active'); }
         function galleryImgSrc(x) { const url = x.image_url || x.photo_url || ''; return url ? escapeHtml(url.startsWith('http') ? url : '../' + url) : ''; }
         function galleryGroupRows(rows) {
             if (!rows.length) return '';
             const groups = [];
             const index = {};
             rows.forEach(x => {
-                const key = galleryGroupKey(x.category, x.title);
-                if (index[key] === undefined) { index[key] = groups.length; groups.push({ cat: String(x.category || ''), title: String(x.title || x.caption || ''), items: [] }); }
+                const key = galleryGroupKey(x.category, x.status, x.id);
+                if (index[key] === undefined) { index[key] = groups.length; groups.push({ cat: String(x.category || ''), status: x.status, items: [] }); }
                 groups[index[key]].items.push(x);
             });
             const renderItemRow = photo => `<tr class="border-t border-[#F1EAE0] bg-[#FBFAF7]">
@@ -870,10 +868,10 @@ CENTER</textarea></div>
                 const sorted = g.items.slice().sort((a, b) => (a.display_order || 0) - (b.display_order || 0));
                 const first = sorted[0];
                 const total = sorted.length;
-                const key = galleryGroupKey(g.cat, g.title);
+                const key = galleryGroupKey(g.cat, g.status, first.id);
                 const open = galleryExpandedGroups.has(key);
-                const upCat = escapeHtml(String(g.cat).toUpperCase());
-                const title = escapeHtml(g.title || (first.org_name || ''));
+                const upCat = escapeHtml(galleryFolderLabel(g.cat));
+                const title = g.status === 'draft' ? escapeHtml(first.caption || 'Foto tanpa caption') : upCat;
                 const chevron = `<svg class="inline-block h-3 w-3 transition-transform ${open ? 'rotate-90' : ''}" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>`;
                 return `<tr>
                     <td class="p-4">${first.image_url ? `<img src="${galleryImgSrc(first)}" alt="" class="mr-3 inline-block h-10 w-12 rounded object-cover align-middle">` : ''}<span class="align-middle"><b>${title}</b><br><span class="text-xs text-slate-500"><span class="inline-flex items-center gap-1 rounded bg-[#fff3e6] px-1.5 py-0.5 font-black uppercase tracking-wider text-[#c2410c]">${upCat}</span>${total > 1 ? ` · <span class="text-slate-500">${total} foto</span>` : ''}</span></span></td>
@@ -945,13 +943,30 @@ CENTER</textarea></div>
             return data;
         }
         async function galleryFolderActionError(error) { notifyToast(error.message || 'Operasi folder gagal.', 'error'); }
+        async function saveGalleryFolderCover(select) {
+            const folder = (galleryFolders || []).find(item => String(item.category) === String(select.dataset.folderCover));
+            if (!folder?.id) return;
+            select.disabled = true;
+            try {
+                const result = await galleryFolderApi('folder_save', { id: folder.id, category: folder.category, description: folder.description || '', cover_image_url: select.value });
+                notifyToast(result.message || 'Foto sampul berhasil diperbarui.', 'success');
+            } catch (error) {
+                notifyToast(error.message || 'Gagal mengubah foto sampul.', 'error');
+            }
+            await loadCrudModule('gallery');
+        }
+        document.addEventListener('change', event => {
+            const select = event.target.closest?.('[data-folder-cover]');
+            if (select) saveGalleryFolderCover(select);
+        });
         async function addGalleryFolder() {
             const input = $('gallery-folder-new-name');
             if (!input) return;
             const name = String(input.value || '').trim();
+            const description = String($('gallery-folder-new-description')?.value || '').trim();
             if (!name) { notifyToast('Ketik nama folder baru terlebih dahulu.', 'error'); return; }
             try {
-                const data = await galleryFolderApi('folder_save', { category: name });
+                const data = await galleryFolderApi('folder_save', { category: name, description });
                 notifyToast(data.message || 'Folder berhasil ditambahkan.', 'success');
                 await loadCrudModule('gallery');
             } catch (error) { notifyToast(error.message, 'error'); }
@@ -959,11 +974,13 @@ CENTER</textarea></div>
         async function renameGalleryFolder(oldCat) {
             const input = $('gallery-folder-rename-input');
             const newName = input ? String(input.value || '').trim() : '';
+            const description = String($('gallery-folder-description-input')?.value || '').trim();
             if (!newName) { notifyToast('Ketik nama folder baru terlebih dahulu.', 'error'); return; }
             const folder = (galleryFolders || []).find(f => String(f.category) === String(oldCat));
             try {
-                const data = await galleryFolderApi('folder_save', { id: folder && folder.id ? folder.id : 0, old_category: oldCat, category: newName });
+                const data = await galleryFolderApi('folder_save', { id: folder && folder.id ? folder.id : 0, old_category: oldCat, category: newName, description });
                 if (crudGalleryFilter && String(crudGalleryFilter) === String(oldCat)) crudGalleryFilter = data.category || oldCat;
+                galleryFolderRenameCat = null;
                 notifyToast(data.message || 'Nama folder berhasil diganti.', 'success');
                 await loadCrudModule('gallery');
             } catch (error) { notifyToast(error.message, 'error'); }
@@ -1099,7 +1116,7 @@ CENTER</textarea></div>
                 try {
                     const folderRes = await fetch('../api/modules.php?module=gallery&action=folder_list', { headers: { 'X-CSRF-Token': csrfToken } });
                     const folderData = await folderRes.json();
-                    galleryFolders = (folderData.data || []).map(f => ({ id: f.id, category: f.category }));
+                    galleryFolders = (folderData.data || []).map(f => ({ id: f.id, category: f.category, description: f.description || '', cover_image_url: f.cover_image_url || '' }));
                 } catch (error) { galleryFolders = []; }
             }
             renderCrudApp();
@@ -1129,6 +1146,8 @@ CENTER</textarea></div>
                 if (newFolderInput && !newFolderInput.classList.contains('hidden') && String(newFolderInput.value || '').trim()) {
                     payload.category = String(newFolderInput.value).trim();
                 }
+                payload.category = String(payload.category || '').trim().toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+                payload.title = String(payload.caption || '').trim();
             }
             if (currentModule === 'services') {
                 // Build the JSON the public site expects from the structured editor.
