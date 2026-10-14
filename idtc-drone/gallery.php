@@ -124,7 +124,7 @@ if ($pdo) {
                 $galleryData[$categoryKey] = [
                     'title' => strtoupper(preg_replace('/\s+/', ' ', str_replace(['-', '_'], ' ', (string)$folder['category']))),
                     'subtitle' => 'Dokumentasi IDTC',
-                    'description' => $folderDescriptions[$categoryKey] ?: 'Belum ada foto pada folder ini.',
+                    'description' => $folderDescriptions[$categoryKey],
                     'photos' => [],
                     '_db' => true
                 ];
